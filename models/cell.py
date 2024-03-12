@@ -1,5 +1,5 @@
 class Cell:
-    def __init__(self,x, y, cell_type='empty'):
+    def __init__(self,x, y):
         self.x = x
         self.y = y
 

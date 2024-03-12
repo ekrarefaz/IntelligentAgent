@@ -27,11 +27,11 @@ def parser():
             for wall in walls:
                 wall_positions.append(tuple(map(int, wall.strip().strip("()").split(","))))
     
-    # DEBUG
-    print(f"Grid:", grid_size)
-    print(f"Agent:", agent_position)
-    print(f"Goal: ", goal_positions)
-    print(f"Wall: ", wall_positions)
+    # # DEBUG
+    # print(f"Grid:", grid_size)
+    # print(f"Agent:", agent_position)
+    # print(f"Goal: ", goal_positions)
+    # print(f"Wall: ", wall_positions)
 
     file.close()
     return grid_size, agent_position, goal_positions, wall_positions

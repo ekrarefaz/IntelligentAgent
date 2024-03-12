@@ -9,6 +9,8 @@ class Grid:
         self.width = width
         self.height = height
         self.grid = []
+        self.agent = None
+        self.goal = []
         self.build_grid()
 
     """ iterate over each row and create columns for each row """
@@ -18,7 +20,11 @@ class Grid:
     """ create and set agent position within grid """
     def set_agent(self, x, y):
         if 0 <= y < self.height and 0 <= x < self.width:
-            self.grid[y][x] = Agent(x, y)
+            self.agent = self.grid[y][x] = Agent(x, y)
+    
+    """ method for getting agent position """
+    def get_agent(self):
+        return self.agent
 
     """ create goal cells within grid """
     def add_goal(self, x, y):
@@ -60,6 +66,7 @@ class Grid:
                 else:
                     self.grid[row_index][column_index].east = None
 
+    """ prints a textual representation of the grid """
     def print_grid(self):
         for row_index in range(self.height):
             print("\n")
