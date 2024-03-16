@@ -6,77 +6,72 @@ from models.wall import Wall
 
 class Grid:
     def __init__(self, height, width):
-        self.width = width
-        self.height = height
-        self.grid = []
-        self.agent = None
-        self.goal = []
+        self._width = width
+        self._height = height
+        self._grid = []
+        self._agent = None
+        self._goal = []
         self.build_grid()
 
     """ iterate over each row and create columns for each row """
     def build_grid(self):
-        self.grid = [[Cell(x, y) for x in range(self.width)] for y in range(self.height)]
+        self._grid = [[Cell(x, y) for x in range(self._width)] for y in range(self._height)]
 
     """ create and set agent position within grid """
     def set_agent(self, x, y):
-        if 0 <= y < self.height and 0 <= x < self.width:
-            self.agent = self.grid[y][x] = Agent(x, y)
+        if 0 <= y < self._height and 0 <= x < self._width:
+            self._agent = self._grid[y][x] = Agent(x, y)
     
     """ method for getting agent position """
     def get_agent(self):
-        return self.agent
+        return self._agent
 
     """ create goal cells within grid """
     def add_goal(self, x, y):
-        if 0 <= y < self.height and 0 <= x < self.width:
-            self.grid[y][x] = Goal(x, y)
+        if 0 <= y < self._height and 0 <= x < self._width:
+            self._grid[y][x] = Goal(x, y)
 
     """ create walls given the wall specs within grid bounds """
     def add_wall(self, x, y, width, height):
-        for i in range(x, min(x + width, self.width)):
-            for j in range(y, min(y + height, self.height)):
-                self.grid[j][i] = Wall(i, j, width, height)
+        for i in range(x, min(x + width, self._width)):
+            for j in range(y, min(y + height, self._height)):
+                self._grid[j][i] = Wall(i, j, width, height)
 
     """ set pointers for neighboring cells by direction"""
     def set_neighbors(self):
-        for row_index in range(self.height):  
-            for column_index in range(self.width):  
+        for row_index in range(self._height):
+            for column_index in range(self._width):
+                cell = self._grid[row_index][column_index]
 
-                # Set pointers for north
-                if row_index > 0:
-                    self.grid[row_index][column_index].north = self.grid[row_index - 1][column_index]
+                # Check North neighbor
+                if row_index > 0 and not isinstance(self._grid[row_index - 1][column_index], Wall):
+                    cell.north = self._grid[row_index - 1][column_index]
                 else:
-                    self.grid[row_index][column_index].north = None
+                    cell.north = None
 
-                # Set pointers for south
-                if row_index < self.height - 1:
-                    self.grid[row_index][column_index].south = self.grid[row_index + 1][column_index]
+                # Check South neighbor
+                if row_index < self._height - 1 and not isinstance(self._grid[row_index + 1][column_index], Wall):
+                    cell.south = self._grid[row_index + 1][column_index]
                 else:
-                    self.grid[row_index][column_index].south = None
+                    cell.south = None
 
-                # Set pointers for west
-                if column_index > 0:
-                    self.grid[row_index][column_index].west = self.grid[row_index][column_index - 1]
+                # Check West neighbor
+                if column_index > 0 and not isinstance(self._grid[row_index][column_index - 1], Wall):
+                    cell.west = self._grid[row_index][column_index - 1]
                 else:
-                    self.grid[row_index][column_index].west = None
+                    cell.west = None
 
-                # Set pointers for east
-                if column_index < self.width - 1:
-                    self.grid[row_index][column_index].east = self.grid[row_index][column_index + 1]
+                # Check East neighbor
+                if column_index < self._width - 1 and not isinstance(self._grid[row_index][column_index + 1], Wall):
+                    cell.east = self._grid[row_index][column_index + 1]
                 else:
-                    self.grid[row_index][column_index].east = None
+                    cell.east = None
 
-    """ prints a textual representation of the grid """
+    """ prints a ascii representation of the grid """
     def print_grid(self):
-        for row_index in range(self.height):
+        for row_index in self._grid:
             print("\n")
-            for column_index in range(self.width):
-                if isinstance(self.grid[row_index][column_index], Wall):
-                    print(" W ", end="")
-                elif isinstance(self.grid[row_index][column_index], Agent):
-                    print(" A ", end="")
-                elif isinstance(self.grid[row_index][column_index], Goal):
-                    print(" G ", end="")
-                elif isinstance(self.grid[row_index][column_index], Cell):
-                    print(" . ", end="")
-  
+            for cell in row_index:
+                print(cell.print_symbol(), end="")
+            print("\n")
+    

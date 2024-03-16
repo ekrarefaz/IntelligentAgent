@@ -1,4 +1,8 @@
-class Agent:
+from models.cell import Cell
+
+class Agent(Cell):
     def __init__(self, x, y):
-        self.x = x
-        self.y = y
+        super().__init__(x, y)
+
+    def print_symbol(self):
+        return " A "
