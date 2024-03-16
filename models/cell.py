@@ -7,7 +7,7 @@ class Cell:
         self._east = None
         self._west = None
 
-    # Getters and setters for encapsulation
+    """ Co-ordinate Getter and Setter """
     @property
     def x(self):
         return self._x
