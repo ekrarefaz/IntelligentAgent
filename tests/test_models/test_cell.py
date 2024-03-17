@@ -1,15 +1,38 @@
 from models.cell import Cell
 import pytest
 
-""" Testing Cell Initialization """
-def test_init():
-    cell = Cell(10,20)
-    assert cell.x == 10
-    assert cell.y == 20
-    for neighbor in ["north", "south", "east", "west"]:
-        assert cell.neighbor == None
+""" Cell Initialization """
+def init(x=11,y=22):
+    return Cell(x,y)
 
-""" Testing Coordinates Method """
+""" Test Cell Initialization """
+def test_init():
+    cell = init()
+
+    assert cell.x == 11
+    assert cell.y == 22
+
+""" Test Cell Neighbor Getter & Setter """
+def test_neighbors():
+    cell = init()
+
+    assert cell.north == None
+    assert cell.south == None
+    assert cell.east == None
+    assert cell.west == None
+
+    north_cell = init(100,200)
+    cell.north = north_cell
+    assert cell.north == north_cell
+
+""" Test Coordinates Method """
 def test_get_coordinate():
-    cell = Cell(11, 12)
-    assert cell.get_coordinates == (11,12)
+    cell = init()
+
+    cell.get_coordinates() == (11, 22)
+
+""" Test Print Method """
+def test_print_symbol():
+    cell = init()
+
+    cell.print_symbol() == " . "

@@ -8,11 +8,11 @@ class Wall(Cell):
 
     @property
     def width(self):
-        return self.width
+        return self._width
     
     @property
     def height(self):
-        return self.height
+        return self._height
     
     def print_symbol(self):
         return " W "
