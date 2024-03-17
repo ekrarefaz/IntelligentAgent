@@ -1,5 +1,4 @@
 from models.cell import Cell
-import pytest
 
 """ Cell Initialization """
 def init(x=11,y=22):
