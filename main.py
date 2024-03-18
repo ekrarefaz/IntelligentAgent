@@ -2,6 +2,7 @@ from utils.data_parser import parser
 from models.cell import Cell
 from models.grid import Grid
 from searches.bfs import BFS
+from searches.dfs import DFS
 
 def grid_init(grid_size, agent_position, goal_positions, wall_positions):
 
@@ -26,6 +27,9 @@ def grid_init(grid_size, agent_position, goal_positions, wall_positions):
 
 
 def dfs(grid: Grid):
+    search_agent = DFS(grid)
+    search_agent.search()
+def bfs(grid: Grid):
     search_agent = BFS(grid)
     search_agent.search()
 

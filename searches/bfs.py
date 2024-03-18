@@ -1,4 +1,3 @@
-from functools import cache
 from models.grid import Grid
 from models.cell import Cell
 from models.goal import Goal
