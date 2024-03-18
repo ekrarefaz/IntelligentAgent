@@ -1,6 +1,8 @@
 from models.grid import Grid
 from models.agent import Agent
 from models.goal import Goal
+from models.wall import Wall
+from models.cell import Cell
 
 """ Initialize Grid """
 def init():
@@ -42,3 +44,20 @@ def test_goal_addition():
     assert grid._goal == []
     grid.add_goal(2,0)
     assert isinstance(grid._grid[0][2], Goal) == True
+
+""" Test Wall Addition Within Bounds """
+def test_wall_addition_within_bounds():
+    grid = init()
+
+    assert isinstance(grid._grid[0][0], Cell)
+    grid.add_wall(0,0,2,2)
+    assert isinstance(grid._grid[0][0], Wall)
+
+""" Test Wall Addition Outof Bounds """
+def test_wall_addition_out_of_bounds():
+    grid = init()
+
+    grid.add_wall(5, 4, 3, 3)
+    assert isinstance(grid._grid[4][5], Wall)
+
+    
