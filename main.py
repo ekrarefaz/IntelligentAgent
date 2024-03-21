@@ -3,6 +3,7 @@ from models.cell import Cell
 from models.grid import Grid
 from searches.bfs import BFS
 from searches.dfs import DFS
+from searches.gbfs import GBFS
 
 def grid_init(grid_size, agent_position, goal_positions, wall_positions):
 
@@ -29,8 +30,13 @@ def grid_init(grid_size, agent_position, goal_positions, wall_positions):
 def dfs(grid: Grid):
     search_agent = DFS(grid)
     search_agent.search()
+
 def bfs(grid: Grid):
     search_agent = BFS(grid)
+    search_agent.search()
+
+def gbfs(grid: Grid):
+    search_agent = GBFS(grid)
     search_agent.search()
 
 def main():
@@ -41,6 +47,8 @@ def main():
     print("grid created")
     grid.print_grid()
 
-    dfs(grid)
+    # bfs(grid)
+    # dfs(grid)
+    gbfs(grid)
 
 main()

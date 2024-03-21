@@ -30,6 +30,7 @@ class Grid:
     def add_goal(self, x, y):
         if 0 <= y < self._height and 0 <= x < self._width:
             self._grid[y][x] = Goal(x, y)
+            self._goal.append(Goal(x,y))
 
     """ create walls given the wall specs within grid bounds """
     def add_wall(self, x, y, width, height):
@@ -66,7 +67,23 @@ class Grid:
                     cell.east = self._grid[row_index][column_index + 1]
                 else:
                     cell.east = None
+                    
+    """ gets the direction of the neighbor """
+    def get_direction(self, from_cell: Cell, to_cell: Cell) -> str:
+        dx = to_cell.x - from_cell.x
+        dy = to_cell.y - from_cell.y
 
+        if dx == 0 and dy == -1:
+            return 'UP'
+        elif dx == -1 and dy == 0:
+            return 'LEFT'
+        elif dx == 0 and dy == 1:
+            return 'DOWN'
+        elif dx == 1 and dy == 0:
+            return 'RIGHT'
+        else:
+            return 'UNKNOWN'
+        
     """ prints a ascii representation of the grid """
     def print_grid(self):
         for row_index in self._grid:

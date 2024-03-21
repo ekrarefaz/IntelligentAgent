@@ -3,6 +3,8 @@ from models.cell import Cell
 from models.goal import Goal
 from collections import deque
 
+from utils.build_path import build_path
+
 class BFS:
 
     def __init__(self, grid: Grid):
@@ -23,8 +25,8 @@ class BFS:
 
             if isinstance(current_cell, Goal):
                 print(f"\n<Node ({current_cell.x},{current_cell.y})> {node_count}")
-                traversedPath = self.build_path(current_cell, self.path)
-                print(traversedPath)
+                traversedPath = build_path(current_cell, self.path)
+                print(f"BFS Path : {traversedPath}")
                 return True
 
             for neighbor in [current_cell.north, current_cell.west, current_cell.south, current_cell.east]:
@@ -33,15 +35,6 @@ class BFS:
                     self.visited.add(neighbor)
                     self.path.update({neighbor:current_cell})
         return False
-
-    def build_path(self, goal_cell, path):
-        traversedPath = []
-        current_cell = goal_cell
-        while current_cell != None:
-            traversedPath.append(current_cell.get_coordinates())
-            current_cell = path.get(current_cell)
-        traversedPath.reverse()
-        return traversedPath
 
 
 
