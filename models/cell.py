@@ -7,6 +7,8 @@ class Cell:
         self._east = None
         self._west = None
 
+        self._g = None
+
     """ Co-ordinate Getter and Setter """
     @property
     def x(self):
@@ -15,6 +17,14 @@ class Cell:
     @property
     def y(self):
         return self._y
+
+    """ g(n) Setter and Getter """
+    @property
+    def g(self):
+        return self._g
+    @g.setter
+    def g(self, value):
+        self._g = value
 
     """ North Getter and Setter """
     @property

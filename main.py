@@ -4,6 +4,7 @@ from models.grid import Grid
 from searches.bfs import BFS
 from searches.dfs import DFS
 from searches.gbfs import GBFS
+from searches.a_star import AS
 
 def grid_init(grid_size, agent_position, goal_positions, wall_positions):
 
@@ -39,6 +40,10 @@ def gbfs(grid: Grid):
     search_agent = GBFS(grid)
     search_agent.search()
 
+def astar(grid: Grid):
+    search_agent = AS(grid)
+    search_agent.search()
+
 def main():
     grid_size, agent_position, goal_positions, wall_positions = parser()
     grid = grid_init(grid_size, agent_position, goal_positions, wall_positions)
@@ -47,8 +52,9 @@ def main():
     print("grid created")
     grid.print_grid()
 
-    # bfs(grid)
-    # dfs(grid)
+    bfs(grid)
+    dfs(grid)
     gbfs(grid)
+    astar(grid)
 
 main()
