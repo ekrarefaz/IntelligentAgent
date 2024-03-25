@@ -1,3 +1,5 @@
+""" Iterative Depth First Search """
+
 from collections import deque
 from models.cell import Cell
 from models.grid import Grid
@@ -7,20 +9,20 @@ from utils.build_path import build_path
 class IDDFS:
     def __init__(self, grid: Grid):
         self.grid = grid
-        self.queue = deque()
         self.visited = set()
         self.path = {}
     
+    """ Perform recursive DFS with a limited depth """
     def dls(self, cell: Cell, depth, limit):
         current_cell = cell
 
         if depth > limit:
             return False
-        self.visited.add(current_cell)
         
+        self.visited.add(current_cell)
         if isinstance(current_cell, Goal):
             return current_cell
-        
+
         for neighbor in [current_cell.north, current_cell.east, current_cell.south, current_cell.west]:
             if neighbor and neighbor not in self.visited:
                 result = self.dls(neighbor, depth + 1, limit)
@@ -29,6 +31,7 @@ class IDDFS:
                     return result
         return None
     
+    """ Incremental BFS until Goal reached """
     def search(self):
         limit = 0
         start_agent = self.grid.get_agent()
@@ -44,4 +47,3 @@ class IDDFS:
                 print(f"IDDFS Path : {traversedPath}")
                 return traversedPath
             limit += 1
-        return None

@@ -1,3 +1,5 @@
+""" Breadth First Search """
+
 from models.grid import Grid
 from models.cell import Cell
 from models.goal import Goal
@@ -13,6 +15,7 @@ class BFS:
         self.visited = set()
         self.path = {}
 
+    """ BFS Search """
     def search(self):
         agent_start: Cell = self.grid.get_agent()
         self.queue.append(agent_start)
@@ -33,7 +36,7 @@ class BFS:
                 if neighbor and neighbor not in self.visited:
                     self.queue.append(neighbor)
                     self.visited.add(neighbor)
-                    self.path.update({neighbor:current_cell})
+                    self.path[neighbor] = current_cell
         return False
 
 

@@ -1,3 +1,5 @@
+""" Depth First Search """
+
 from models.grid import Grid
 from models.goal import Goal
 from utils.build_path import build_path
@@ -9,6 +11,7 @@ class DFS:
         self.visited = set()
         self.path = {}
 
+    """ Iterative DFS Search """
     def search(self):
         agent_start = self.grid.get_agent()
         self.stack.append(agent_start)
@@ -31,3 +34,4 @@ class DFS:
                     if neighbor != None and neighbor not in self.visited:
                         self.stack.append(neighbor)
                         self.path[neighbor] = current_cell
+
