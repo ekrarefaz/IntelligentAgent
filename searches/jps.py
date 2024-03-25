@@ -52,17 +52,17 @@ class JPS:
         next_cell = self.explore_direction(cell, direction)
         while next_cell:
             if next_cell in self.visited:
-                break  # Stop if already visited
+                break  
             if next_cell in self.goals:
-                return next_cell  # Goal found
-            self.visited.add(next_cell)  # Mark as visited
+                return next_cell  
+            self.visited.add(next_cell)  
             next_cell = self.explore_direction(next_cell, direction)
         return None
 
     def search(self):
         print("JPS Start")
         agent_start = self.grid.get_agent()
-        self.visited.add(agent_start)  # Mark the start cell as visited
+        self.visited.add(agent_start)
         count = next(self.counter)
         start_heuristic = self.heuristic(agent_start)
         self.priority_queue.put((start_heuristic, None, count, agent_start))

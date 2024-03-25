@@ -12,5 +12,6 @@ class Goal(Cell):
     def y(self):
         return self._y
     
+    """ Print Symbol for Goal """
     def print_symbol(self):
         return " G "
