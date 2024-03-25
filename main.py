@@ -1,3 +1,4 @@
+from searches.iddfs import IDDFS
 from utils.data_parser import parser
 from models.cell import Cell
 from models.grid import Grid
@@ -5,6 +6,7 @@ from searches.bfs import BFS
 from searches.dfs import DFS
 from searches.gbfs import GBFS
 from searches.a_star import AS
+from searches.jps import JPS
 
 def grid_init(grid_size, agent_position, goal_positions, wall_positions):
 
@@ -44,6 +46,14 @@ def astar(grid: Grid):
     search_agent = AS(grid)
     search_agent.search()
 
+def jps(grid: Grid):
+    search_agent = JPS(grid)
+    search_agent.search()
+
+def iddfs(grid: Grid):
+    search_agent = IDDFS(grid)
+    search_agent.search()
+
 def main():
     grid_size, agent_position, goal_positions, wall_positions = parser()
     grid = grid_init(grid_size, agent_position, goal_positions, wall_positions)
@@ -56,5 +66,7 @@ def main():
     dfs(grid)
     gbfs(grid)
     astar(grid)
+    # jps(grid)
+    iddfs(grid)
 
 main()
