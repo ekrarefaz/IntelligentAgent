@@ -20,4 +20,8 @@ def grid_init(grid_size, agent_position, goal_positions, wall_positions):
 
         """ Set pointers for neighboring cells """
         grid.set_neighbors()
+
+        """ Draw the grid """
+        grid.print_grid()
+        
         return grid
