@@ -30,14 +30,17 @@ class BFS:
                 print(f"\n<Node ({current_cell.x},{current_cell.y})> {node_count}")
                 traversedPath = build_path(current_cell, self.path)
                 print(f"BFS Path : {traversedPath}")
-                return True
+                return {
+                    'path': traversedPath,
+                    'nodes_explored': node_count
+                    }
 
             for neighbor in [current_cell.north, current_cell.west, current_cell.south, current_cell.east]:
                 if neighbor and neighbor not in self.visited:
                     self.queue.append(neighbor)
                     self.visited.add(neighbor)
                     self.path[neighbor] = current_cell
-        return False
+        return
 
 
 

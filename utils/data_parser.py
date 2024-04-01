@@ -1,6 +1,6 @@
-def parser():
+def gridparser(filename):
     """ open the file for reading """
-    file = open("/Users/ekrar/Swinny/semester6/AI/assign1/RobotNav-test.txt", "r")
+    file = open(filename, "r")
     lines = file.readlines()
 
     grid_size = None
@@ -27,11 +27,5 @@ def parser():
             for wall in walls:
                 wall_positions.append(tuple(map(int, wall.strip().strip("()").split(","))))
     
-    # # DEBUG
-    # print(f"Grid:", grid_size)
-    # print(f"Agent:", agent_position)
-    # print(f"Goal: ", goal_positions)
-    # print(f"Wall: ", wall_positions)
-
     file.close()
     return grid_size, agent_position, goal_positions, wall_positions

@@ -83,7 +83,7 @@ class Grid:
             return 'RIGHT'
         else:
             return 'UNKNOWN'
-        
+            
     """ prints a ascii representation of the grid """
     def print_grid(self):
         for row_index in self._grid:

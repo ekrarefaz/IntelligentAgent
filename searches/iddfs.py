@@ -1,49 +1,46 @@
-""" Iterative Depth First Search """
-
-from collections import deque
-from models.cell import Cell
 from models.grid import Grid
+from models.cell import Cell
 from models.goal import Goal
-from utils.build_path import build_path
 
+from utils.build_path import build_path
 class IDDFS:
     def __init__(self, grid: Grid):
         self.grid = grid
         self.visited = set()
         self.path = {}
     
-    """ Perform recursive DFS with a limited depth """
-    def dls(self, cell: Cell, depth, limit):
-        current_cell = cell
-
+    def dls(self, cell: Cell, depth, limit, node_count):
         if depth > limit:
-            return False
+            return None, node_count  
         
-        self.visited.add(current_cell)
-        if isinstance(current_cell, Goal):
-            return current_cell
+        self.visited.add(cell)
+        node_count += 1  
 
-        for neighbor in [current_cell.north, current_cell.east, current_cell.south, current_cell.west]:
+        if isinstance(cell, Goal):
+            return cell, node_count  
+        for neighbor in [cell.north, cell.east, cell.south, cell.west]:
             if neighbor and neighbor not in self.visited:
-                result = self.dls(neighbor, depth + 1, limit)
-                if result: 
-                    self.path[neighbor] = cell 
-                    return result
-        return None
+                result, node_count = self.dls(neighbor, depth + 1, limit, node_count)  
+                if result:
+                    self.path[neighbor] = cell
+                    return result, node_count 
+        return None, node_count  
     
-    """ Incremental BFS until Goal reached """
     def search(self):
         limit = 0
-        start_agent = self.grid.get_agent()
+        node_count = 0  
 
         while True:
             self.visited.clear()
             self.path.clear()
-            goal_cell = self.dls(start_agent, 0, limit)
+            goal_cell, node_count = self.dls(self.grid.get_agent(), 0, limit, node_count)
 
             if goal_cell:
-                print(f"\n<Node ({goal_cell.x},{goal_cell.y})>")
+                print(f"\n<Node ({goal_cell.x},{goal_cell.y})> {node_count}")
                 traversedPath = build_path(goal_cell, self.path)
                 print(f"IDDFS Path : {traversedPath}")
-                return traversedPath
-            limit += 1
+                return {
+                    'path': traversedPath,
+                    'nodes_explored': node_count
+                } 
+            limit += 1  

@@ -54,19 +54,26 @@ class AS:
         start_cost = self.calculate_f(agent_start)
         self.priority_queue.put((start_cost, None, count, agent_start))
         self.visited.add(agent_start)
+        node_count = 1
 
         while not self.priority_queue.empty():
             _, _, _, current_cell = self.priority_queue.get()
 
+            if current_cell not in self.visited:
+                self.visited.add(current_cell)
+                node_count += 1
+
             if isinstance(current_cell, Goal):
-                print(f"\n<Node ({current_cell.x},{current_cell.y})>")
+                print(f"\n<Node ({current_cell.x},{current_cell.y})> {node_count}")
                 traversedPath = build_path(current_cell, self.path)
                 print(f"AS Path : {traversedPath}")
-                return True
+                return {
+                    'path': traversedPath,
+                    'nodes_explored': node_count
+                }
             
             for neighbor in [current_cell.north, current_cell.east, current_cell.south, current_cell.west]:
                 if neighbor != None and neighbor not in self.visited:
-                    self.visited.add(neighbor)
                     self.add_to_queue(current_cell, neighbor)
                     self.path[neighbor] = current_cell
-        return False
+        return

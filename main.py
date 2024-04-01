@@ -1,12 +1,12 @@
-from searches.iddfs import IDDFS
-from utils.data_parser import parser
+import sys
+from utils.data_parser import gridparser
 from models.cell import Cell
 from models.grid import Grid
 from searches.bfs import BFS
 from searches.dfs import DFS
 from searches.gbfs import GBFS
 from searches.a_star import AS
-from searches.jps import JPS
+from searches.iddfs import IDDFS
 
 def grid_init(grid_size, agent_position, goal_positions, wall_positions):
 
@@ -26,7 +26,6 @@ def grid_init(grid_size, agent_position, goal_positions, wall_positions):
 
     """ Set pointers for neighboring cells """
     grid.set_neighbors()
-
     return grid
 
 
@@ -46,27 +45,35 @@ def astar(grid: Grid):
     search_agent = AS(grid)
     search_agent.search()
 
-def jps(grid: Grid):
-    search_agent = JPS(grid)
-    search_agent.search()
-
 def iddfs(grid: Grid):
     search_agent = IDDFS(grid)
     search_agent.search()
 
 def main():
-    grid_size, agent_position, goal_positions, wall_positions = parser()
+    if len(sys.argv) != 3:
+        print("Usage: python3 [FILENAME.py] [METHOD]")
+        sys.exit(1)
+    
+    method = sys.argv[2].lower() 
+    grid_size, agent_position, goal_positions, wall_positions = gridparser(sys.argv[1])
+
     grid = grid_init(grid_size, agent_position, goal_positions, wall_positions)
 
-    #DEBUG
-    print("grid created")
-    grid.print_grid()
+    search_methods = {
+        'bfs': bfs,
+        'dfs': dfs,
+        'gbfs': gbfs,
+        'astar': astar,
+        'iddfs': iddfs
+    }
 
-    bfs(grid)
-    dfs(grid)
-    gbfs(grid)
-    astar(grid)
-    # jps(grid)
-    iddfs(grid)
+    search_function = search_methods.get(method)
+    if search_function:
+        print(f"Executing {method.upper()} search...")
+        search_function(grid)
+    else:
+        print(f"Search method '{method}' not recognized. Available methods are: {', '.join(search_methods.keys())}")
+        sys.exit(1)
 
-main()
+if __name__ == "__main__":
+    main()
