@@ -15,7 +15,7 @@ def run_test(algorithm_class, grid: Grid):
     start_time = time.time()
     tracemalloc.start()
 
-    nodes_explored, path = algorithm.search()
+    path, nodes_explored = algorithm.search()
 
     execution_time = time.time() - start_time
     _, peak_memory_usage = tracemalloc.get_traced_memory()

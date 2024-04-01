@@ -67,10 +67,7 @@ class AS:
                 print(f"\n<Node ({current_cell.x},{current_cell.y})> {node_count}")
                 traversedPath = build_path(current_cell, self.path)
                 print(f"AS Path : {traversedPath}")
-                return {
-                    'path': traversedPath,
-                    'nodes_explored': node_count
-                }
+                return traversedPath, node_count
             
             for neighbor in [current_cell.north, current_cell.east, current_cell.south, current_cell.west]:
                 if neighbor != None and neighbor not in self.visited:

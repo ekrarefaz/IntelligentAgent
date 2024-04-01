@@ -39,8 +39,5 @@ class IDDFS:
                 print(f"\n<Node ({goal_cell.x},{goal_cell.y})> {node_count}")
                 traversedPath = build_path(goal_cell, self.path)
                 print(f"IDDFS Path : {traversedPath}")
-                return {
-                    'path': traversedPath,
-                    'nodes_explored': node_count
-                } 
+                return traversedPath, node_count
             limit += 1  

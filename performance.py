@@ -1,4 +1,6 @@
 import argparse
+import csv
+import json
 import os
 
 from searches.bfs import BFS
@@ -12,6 +14,14 @@ from utils.data_parser import gridparser
 from performance_test.test_runner import run_test
 from utils.grid_init import grid_init
 
+def log_result(results):
+    fieldnames = ['algorithm', 'execution_time', 'peak_memory_usage', 'nodes_explored', 'path_length']
+    with open('results.csv', 'w', newline='') as csv_file:
+        writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
+        writer.writeheader()
+        for result in results:
+            writer.writerow(result)
+    
 def load_grid_files(folder_path='grid_configs'):
     return [os.path.join(folder_path, file) for file in os.listdir(folder_path) if file.endswith('.txt')]
 
@@ -23,7 +33,7 @@ def main():
     parser.add_argument('--algorithm-all', action='store_true', help="Test all algorithms for the specified grid.")
 
     args = parser.parse_args()
-
+    results = []
     algorithm_map = {
         'BFS': BFS,
         'DFS': DFS,
@@ -53,8 +63,10 @@ def main():
         grid = grid_init(grid_size, agent_position, goal_positions, wall_positions)
 
         for algorithm in algorithms_to_run:
-            results = run_test(algorithm, grid)  # Ensure run_test accepts a search agent instance and executes its search method
+            result = run_test(algorithm, grid)  
             print(f"Results for {grid_file} using {algorithm.__name__}: {results}")
+            results.append(result)
+            log_result(results)
 
 if __name__ == "__main__":
     main()
