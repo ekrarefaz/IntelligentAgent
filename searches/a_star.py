@@ -73,4 +73,6 @@ class AS:
                 if neighbor != None and neighbor not in self.visited:
                     self.add_to_queue(current_cell, neighbor)
                     self.path[neighbor] = current_cell
-        return
+                    
+        print(f"No goal reachable <{node_count}>")
+        return None, node_count
