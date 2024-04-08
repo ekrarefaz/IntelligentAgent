@@ -37,7 +37,8 @@ class BFS:
                     self.queue.append(neighbor)
                     self.visited.add(neighbor)
                     self.path[neighbor] = current_cell
-        return
+        print(f"No goal reachable <{node_count}>")
+        return None, node_count
 
 
 

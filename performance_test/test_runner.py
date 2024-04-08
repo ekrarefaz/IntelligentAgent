@@ -21,7 +21,10 @@ def run_test(algorithm_class, grid: Grid):
     _, peak_memory_usage = tracemalloc.get_traced_memory()
     tracemalloc.stop()
 
-    path_length = len(path)
+    if path != None:
+        path_length = len(path)
+    else:
+        path_length = 0
 
     results = {
         'algorithm': algorithm_class.__name__,

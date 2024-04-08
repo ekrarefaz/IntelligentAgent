@@ -14,6 +14,7 @@ from utils.data_parser import gridparser
 from performance_test.test_runner import run_test
 from utils.grid_init import grid_init
 
+""" Logging performance results in CSV file """
 def log_result(results):
     fieldnames = ['algorithm', 'execution_time', 'peak_memory_usage', 'nodes_explored', 'path_length']
     with open('results.csv', 'w', newline='') as csv_file:
@@ -21,18 +22,20 @@ def log_result(results):
         writer.writeheader()
         for result in results:
             writer.writerow(result)
-    
+
+""" for --grid-all parsing all grid files """ 
 def load_grid_files(folder_path='grid_configs'):
     return [os.path.join(folder_path, file) for file in os.listdir(folder_path) if file.endswith('.txt')]
 
-def main():
+""" parse terminal arguments and execute performance tests """
+def performance():
     parser = argparse.ArgumentParser(description="Run search algorithms on specified grids.")
     parser.add_argument('--grid', type=str, help="Path to the grid configuration file.")
     parser.add_argument('--grid-all', action='store_true', help="Run the specified algorithm on all grids in the grid_configs folder.")
     parser.add_argument('--algorithm', type=str, help="Specify the algorithm to test.")
     parser.add_argument('--algorithm-all', action='store_true', help="Test all algorithms for the specified grid.")
-
     args = parser.parse_args()
+
     results = []
     algorithm_map = {
         'BFS': BFS,
@@ -42,6 +45,7 @@ def main():
         'IDDFS': IDDFS
     }
 
+    # Check if we are testing against a single or multiple grid files
     if args.grid_all:
         grid_files = load_grid_files()
     elif args.grid:
@@ -50,6 +54,7 @@ def main():
         print("Please specify a grid with --grid or use --grid-all to run all grids.")
         return
 
+    # Check if we are testing against a single or multiple algorithms
     if args.algorithm_all:
         algorithms_to_run = list(algorithm_map.values())
     elif args.algorithm in algorithm_map:
@@ -68,5 +73,4 @@ def main():
             results.append(result)
             log_result(results)
 
-if __name__ == "__main__":
-    main()
+performance()
