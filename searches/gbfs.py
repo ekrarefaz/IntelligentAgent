@@ -7,6 +7,9 @@ from queue import PriorityQueue
 from utils.build_path import build_path
 
 class GBFS:
+    """
+    Initialize the GBFS search with the grid.
+    """
     def __init__(self, grid: Grid):
         self.grid = grid
         self.goals = self.grid._goal
@@ -15,30 +18,40 @@ class GBFS:
         self.path = {}
         self.counter = itertools.count()
 
-    """ Manhattan Distance method for calculating heuristic """
+    """
+    Manhattan Distance method for calculating heuristic
+    """
     def manhattan_distance(self, cell: Cell, goal: Goal):
         return abs(cell.x - goal.x) + abs(cell.y - goal.y)
 
-    """ when all else equal explore directional bias """
+    """
+    When all else equal explore directional bias
+    """
     def directional_bias(self, cell: Cell, neighbor: Cell):
         bias = {'UP': 0, 'LEFT': 1, 'DOWN': 2, 'RIGHT': 3}
         direction = self.grid.get_direction(cell, neighbor)
         return bias.get(direction)
 
-    """ Heuristic calculation """
+    """
+    Heuristic calculation using Manhattan Distance
+    """
     def heuristic(self, cell: Cell):
         if len(self.goals) == 0:
             return 0
         return min(self.manhattan_distance(cell, goal) for goal in self.goals)
     
-    """ adding cells to priority queue based on heuristic & direction """
+    """
+    Adding cells to priority queue based on heuristic & direction bias
+    """
     def add_to_queue(self, cell, neighbor):
         count = next(self.counter)
         direction_bias = self.directional_bias(cell, neighbor)
         heuristic_value = self.heuristic(neighbor)
         self.priority_queue.put((heuristic_value, direction_bias, count, neighbor))
 
-    """ GBFS search implementation """
+    """
+    GBFS search implementation
+    """
     def search(self):
         node_count = 1
         agent_start = self.grid.get_agent()
@@ -53,13 +66,17 @@ class GBFS:
             if current_cell not in self.visited:
                 self.visited.add(current_cell)
                 node_count += 1
-
+            """
+            Check if the current cell is a goal, if so build the path and return
+            """
             if isinstance(current_cell, Goal):
                 print(f"\n<Node ({current_cell.x},{current_cell.y})> {node_count}")
                 traversedPath = build_path(current_cell, self.path)
                 print(f"GBFS Path : {traversedPath}")
                 return traversedPath, node_count
-            
+            """
+            Explore each unvisited neighbor and add to the priority queue
+            """
             for neighbor in [current_cell.north, current_cell.east, current_cell.south, current_cell.west]:
                 if neighbor != None and neighbor not in self.visited:
                     self.add_to_queue(current_cell, neighbor)
