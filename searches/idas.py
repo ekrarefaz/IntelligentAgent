@@ -57,7 +57,7 @@ class IDAS:
         self.min_threshold = float('inf')
 
         while True:
-            self.visited = set()  # Reset visited each iteration
+            self.visited = set()  
             temp = self.search_recursive(agent_start, 0, threshold, None)
             if temp == float('inf'):
                 print(f"No goal reachable; {self.node_count}")
@@ -104,5 +104,3 @@ class IDAS:
 
         self.visited.remove(cell)
         return min_threshold
-
-

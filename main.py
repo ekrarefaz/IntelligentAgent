@@ -1,7 +1,7 @@
 import sys
 import argparse
 from utils.data_parser import gridparser
-from performance import performance
+from performance_test.performance import performance
 from models.cell import Cell
 from models.grid import Grid
 from searches.bfs import BFS

@@ -14,13 +14,18 @@ Performance test runner
 """
 def run_test(algorithm_class, grid: Grid):
     algorithm = algorithm_class(grid)
-
-    """ Start the timer and memory profiler"""
+    
+    """
+    Start the timer and memory profiler
+    """
     start_time = time.time()
     tracemalloc.start()
 
     path, nodes_explored = algorithm.search()
 
+    """
+    Stop the timer and memory profiler
+    """
     execution_time = time.time() - start_time
     _, peak_memory_usage = tracemalloc.get_traced_memory()
     tracemalloc.stop()
