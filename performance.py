@@ -45,7 +45,7 @@ def performance():
         'IDDFS': IDDFS
     }
 
-    # Check if we are testing against a single or multiple grid files
+    """Check if testing against a single or multiple grid files"""
     if args.grid_all:
         grid_files = load_grid_files()
     elif args.grid:
@@ -54,7 +54,7 @@ def performance():
         print("Please specify a grid with --grid or use --grid-all to run all grids.")
         return
 
-    # Check if we are testing against a single or multiple algorithms
+    """ Check if testing against a single or multiple algorithms """
     if args.algorithm_all:
         algorithms_to_run = list(algorithm_map.values())
     elif args.algorithm in algorithm_map:
@@ -68,8 +68,8 @@ def performance():
         grid = grid_init(grid_size, agent_position, goal_positions, wall_positions)
 
         for algorithm in algorithms_to_run:
+            print(f"Running {algorithm.__name__} on {grid_file}")
             result = run_test(algorithm, grid)  
-            print(f"Results for {grid_file} using {algorithm.__name__}: {results}")
             results.append(result)
             log_result(results)
 

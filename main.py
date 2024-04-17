@@ -7,6 +7,7 @@ from searches.dfs import DFS
 from searches.gbfs import GBFS
 from searches.a_star import AS
 from searches.iddfs import IDDFS
+from searches.idas import IDAS
 from utils.grid_init import grid_init
 
 def dfs(grid: Grid):
@@ -29,6 +30,10 @@ def iddfs(grid: Grid):
     search_agent = IDDFS(grid)
     search_agent.search()
 
+def idas(grid: Grid):
+    search_agent = IDAS(grid)
+    search_agent.search()
+
 def main():
     if len(sys.argv) != 3:
         print("Usage: python3 [FILENAME.py] [METHOD]")
@@ -44,7 +49,8 @@ def main():
         'dfs': dfs,
         'gbfs': gbfs,
         'astar': astar,
-        'iddfs': iddfs
+        'iddfs': iddfs,
+        'idas' : idas
     }
 
     search_function = search_methods.get(method)

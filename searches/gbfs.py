@@ -27,7 +27,9 @@ class GBFS:
 
     """ Heuristic calculation """
     def heuristic(self, cell: Cell):
-        return min(self.manhattan_distance(cell, goal) for goal in self.grid._goal)
+        if len(self.goals) == 0:
+            return 0
+        return min(self.manhattan_distance(cell, goal) for goal in self.goals)
     
     """ adding cells to priority queue based on heuristic & direction """
     def add_to_queue(self, cell, neighbor):
