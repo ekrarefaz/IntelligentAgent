@@ -1,6 +1,7 @@
 import sys
 import argparse
 from utils.data_parser import gridparser
+from performance import performance
 from models.cell import Cell
 from models.grid import Grid
 from searches.bfs import BFS
@@ -40,17 +41,6 @@ def idas(grid: Grid):
 
 def main():
     """
-    Parse the command line arguments
-    """
-    parser = argparse.ArgumentParser(description="Run Search Algorithms on Grids")
-    parser.add_argument('filename', type=str, help="Path to the grid configuration file.")
-    parser.add_argument('method', type=str, help="Search method to use.")
-    args = parser.parse_args()
-    
-    gridfile = args.filename
-    method = args.method.upper()
-
-    """
     Search methods dictionary
     """
     search_methods = {
@@ -61,6 +51,20 @@ def main():
         'IDDFS': iddfs,
         'IDAS' : idas
     }
+    """
+    General CLI Argument Parser
+    """
+    parser = argparse.ArgumentParser(description="Run Search Algorithms on Grids")
+    parser.add_argument('filename', type=str, help="Path to the grid configuration file.")
+    parser.add_argument('-m', '-method', type=str, help="Search method to use. i.e. BFS, DFS, GBFS, AS, IDDFS, IDAS")
+    """
+    Performance Testing Argument Parser
+    """
+    parser.add_argument('-p', '--performance', action='store_true', help="Run performance tests on all search algorithms.")
+
+    args = parser.parse_args()
+    gridfile = args.filename
+    method = args.m
 
     """
     Parse the grid file and initialize the grid
@@ -68,6 +72,9 @@ def main():
     grid_size, agent_position, goal_positions, wall_positions = gridparser(gridfile)
     grid = grid_init(grid_size, agent_position, goal_positions, wall_positions)
 
+    if args.performance:
+        print("Running performance tests...")
+        performance(gridfile)
     """
     Execute the search method
     """
