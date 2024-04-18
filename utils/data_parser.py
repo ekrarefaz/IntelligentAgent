@@ -1,3 +1,6 @@
+"""
+Parser for the grid data from the text file
+"""
 def gridparser(filename):
     """ open the file for reading """
     file = open(filename, "r")

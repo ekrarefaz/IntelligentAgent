@@ -84,3 +84,43 @@ class GBFS:
                     
         print(f"No goal reachable <{node_count}>")
         return None, node_count
+    
+    """
+    GBFS Extension to handle multiple goals
+    """
+    def search_extension(self):
+        node_count = 1
+        agent_start = self.grid.get_agent()
+        count = next(self.counter)
+        start_heuristic = self.heuristic(agent_start)
+        self.priority_queue.put((start_heuristic, None, count, agent_start))
+        self.visited.add(agent_start)
+        paths_to_goals = {}
+
+        while not self.priority_queue.empty():
+            _, _, _, current_cell = self.priority_queue.get()
+
+            if current_cell not in self.visited:
+                self.visited.add(current_cell)
+                node_count += 1
+            """
+            Extended implementation of GBFS to handle multiple goals. Using a goal counter
+            """
+            if isinstance(current_cell, Goal):
+                paths_to_goals[(current_cell.x, current_cell.y)] = build_path(current_cell, self.path)
+                print(f"\n<Node ({current_cell.x},{current_cell.y})> {node_count}")
+                if len(paths_to_goals) == len(self.goals):
+                    print(f"All goals reached.")
+                    for goal, path in paths_to_goals.items():
+                        print(f"GBFS Path to {goal} : {path}")
+                    return paths_to_goals, node_count
+            """
+            Explore each unvisited neighbor and add to the priority queue
+            """
+            for neighbor in [current_cell.north, current_cell.east, current_cell.south, current_cell.west]:
+                if neighbor != None and neighbor not in self.visited:
+                    self.add_to_queue(current_cell, neighbor)
+                    self.path[neighbor] = current_cell
+
+        print(f"No goal reachable <{node_count}>")
+        return None, node_count

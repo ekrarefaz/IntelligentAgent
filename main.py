@@ -16,28 +16,22 @@ from utils.grid_init import grid_init
 Search Algorithms
 """
 def dfs(grid: Grid):
-    search_agent = DFS(grid)
-    search_agent.search()
+    return DFS(grid)
 
 def bfs(grid: Grid):
-    search_agent = BFS(grid)
-    search_agent.search()
+    return BFS(grid)
 
 def gbfs(grid: Grid):
-    search_agent = GBFS(grid)
-    search_agent.search()
+    return GBFS(grid)
 
 def astar(grid: Grid):
-    search_agent = AS(grid)
-    search_agent.search()
+    return AS(grid)
 
 def iddfs(grid: Grid):
-    search_agent = IDDFS(grid)
-    search_agent.search()
+    return IDDFS(grid)
 
 def idas(grid: Grid):
-    search_agent = IDAS(grid)
-    search_agent.search()
+    return IDAS(grid)
 
 def main():
     """
@@ -57,10 +51,17 @@ def main():
     parser = argparse.ArgumentParser(description="Run Search Algorithms on Grids")
     parser.add_argument('filename', type=str, help="Path to the grid configuration file.")
     parser.add_argument('-m', '-method', type=str, help="Search method to use. i.e. BFS, DFS, GBFS, AS, IDDFS, IDAS")
+    
     """
     Performance Testing Argument Parser
     """
     parser.add_argument('-p', '--performance', action='store_true', help="Run performance tests on all search algorithms.")
+
+    """
+    Extension Argument Parser 
+    """
+    parser.add_argument('-e', '--extension', action='store_true', help="Run DFS search for multiple goals.")
+
 
     args = parser.parse_args()
     gridfile = args.filename
@@ -76,15 +77,25 @@ def main():
         print("Running performance tests...")
         performance(gridfile)
     """
-    Execute the search method
+    Execute the basic or extended search method 
     """
-    search_function = search_methods.get(method)
-    if search_function:
-        print(f"Executing {method.upper()} search...")
-        search_function(grid)
+    
+    if args.extension:
+        search_function = search_methods.get(method)
+        if search_function:
+            print(f"Executing {method.upper()} Extension search...")
+            search_function(grid).search_extension()
+        else:
+            print(f"Search method '{method}' not recognized. Available methods are: {', '.join(search_methods.keys())}")
+            sys.exit(1)
     else:
-        print(f"Search method '{method}' not recognized. Available methods are: {', '.join(search_methods.keys())}")
-        sys.exit(1)
+        search_function = search_methods.get(method)
+        if search_function:
+            print(f"Executing {method.upper()} search...")
+            search_function(grid).search()
+        else:
+            print(f"Search method '{method}' not recognized. Available methods are: {', '.join(search_methods.keys())}")
+            sys.exit(1)
 
 if __name__ == "__main__":
     main()
